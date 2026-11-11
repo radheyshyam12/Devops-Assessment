@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: hotel-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-hotel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hotel_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-hotel_bookings}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Executed in filename order, only on first start of an empty volume.
+      - ./db/migrations/001_create_tables.sql:/docker-entrypoint-initdb.d/001_create_tables.sql:ro
+      - ./db/migrations/002_add_indexes.sql:/docker-entrypoint-initdb.d/002_add_indexes.sql:ro
+      - ./db/seed/003_seed.sql:/docker-entrypoint-initdb.d/003_seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:

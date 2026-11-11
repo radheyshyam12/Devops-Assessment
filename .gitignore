@@ -1,0 +1,9 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+plan.txt
+backend_override.tf
+.env
+backups/*.dump
+backups/*.sha256
