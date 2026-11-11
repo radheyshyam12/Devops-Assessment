@@ -209,3 +209,4 @@ docker compose down -v && docker compose up -d --wait   # simulate losing the da
 - An FK (`booking_events.booking_id -> hotel_bookings.id`) and CHECK constraints (`amount >= 0`, `checkout > checkin`) were added to the suggested schema for integrity.
 - The ALB listens on HTTP only, to avoid requiring a domain/ACM certificate. Production next steps: ACM cert + HTTPS listener with HTTP→HTTPS redirect, WAF, ECS autoscaling, access logs, VPC endpoints for ECR/Logs/Secrets Manager to cut NAT traffic.
 - Remote-state bucket names in `backend.tf` are placeholders; create the bucket and lock table before a real `init`.
+# Devops-Assessment
